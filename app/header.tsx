@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import LoginBtn from '../components/auth/loginBtn'
 
 const LI = ({ path, title}: any) => {
   return (
@@ -20,6 +21,7 @@ const Header = () => {
         <ul className='flex justify-center gap-8'>
           <LI path='/' title='Home' />
           <LI path='/users' title='Users' />
+          <li><LoginBtn /></li>
         </ul>
       </nav>
 
