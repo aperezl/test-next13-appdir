@@ -1,14 +1,13 @@
-import { getUserById } from "../../../lib/user"
+import { getUserById, getUsers } from "../../../lib/user"
 import { Suspense } from "react";
 
 export const dynamic = 'force-static'
 export const revalidate = false
 export const dynamicParams = true
 
-export function generateStaticParams() {
-  // const { users } = await getUsers()
-  // return users?.map(user => ({ userId: user.id }))
-  return []
+export async function generateStaticParams() {
+  const { users } = await getUsers()
+  return users?.map(user => ({ userId: user.id }))
 }
 
 import User from './user'
