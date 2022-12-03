@@ -7,7 +7,7 @@ interface Props {
 
 }
 
-export default function UserComponent({ user }: Props) {
+export default function UserComponent({ user }: any) {
   return (
     <section className="m-4 p-4">
       <div className="center">

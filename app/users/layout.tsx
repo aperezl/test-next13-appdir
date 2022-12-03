@@ -1,13 +1,14 @@
-import Users from "./users";
+// export const revalidate = 60;
 
-export default async function UserLayout({ children }: any) {
+export default function UserLayout({ children }: any) {
   return (
     <section className="flex">
       <aside className="w-1/4">
-        {/* @ts-expect-error Server Component */}
-        <Users />
+        ----
       </aside>
-      <main>{children}</main>
+      <main>
+        {children}
+      </main>
     </section>
   )
 }
