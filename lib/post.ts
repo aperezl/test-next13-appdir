@@ -8,19 +8,37 @@ export interface Post {
   authorId: string
 }
 
-export async function createPost(post: Post): Promise<{ post: Post}> {
-  const postFromDB = await prisma.post.create({
-    data: {
-      title: post.title,
-      content: post.content,
-      author: { connect: { email: 'aperezl@gmail.com' }}
-    }
-  })
-  return { post: postFromDB }
-
+export interface CreatePostResponse {
+  post?: Post,
+  error?: any
 }
 
-export async function getAllPosts(): Promise<{ posts: Post[]}> {
-  const posts = await prisma.post.findMany()
-  return { posts }  
+export interface GetAllPostsResponse {
+  posts: Post[]
+  error?: any
+}
+
+export async function createPost(post: Post): Promise<CreatePostResponse> {
+  try {
+    const postFromDB = await prisma.post.create({
+      data: {
+        title: post.title,
+        content: post.content,
+        author: { connect: { email: 'aperezl@gmail.com' }}
+      }
+    })
+    return { post: postFromDB }
+  } catch (error) {
+    return { error }
+  }
+}
+
+export async function getAllPosts(): Promise<GetAllPostsResponse> {
+  try {
+    const posts = await prisma.post.findMany()
+    return { posts }
+  } catch(error) {
+    return { posts: [], error }
+  }
+  
 }

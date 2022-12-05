@@ -8,13 +8,15 @@ import { Suspense } from "react"
 export default async function Dashboard(context:any) {
   const session = await unstable_getServerSession(authOptions)
   if (!session) return <>Not Authorized</>
-  const data = await getAllPosts()
+  const { posts, error } = await getAllPosts()
+  if (error) return <>Error loading data</>
+  
 
   return (
     <>
       Dasboard
       <Suspense fallback={<h1>Loading...</h1>}>
-        <Table posts={ data.posts } />
+        <Table posts={ posts } />
       </Suspense>
     </>
   )
