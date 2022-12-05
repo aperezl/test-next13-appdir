@@ -1,3 +1,5 @@
+'use client'
+import Link from "next/link"
 import { Post } from "../../../lib/post"
 
 // export const TableWrapper = () => {
@@ -19,7 +21,7 @@ import { Post } from "../../../lib/post"
 //   )
 // }
 
-export const THead = () => {
+export const THead = ({ field, order } : SortProps) => {
   return (
     <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
       <tr>
@@ -27,7 +29,11 @@ export const THead = () => {
           <div className="font-semibold text-left">authorId</div>
         </th>
         <th className="p-2 whitespace-nowrap">
-          <div className="font-semibold text-left">Title</div>
+          <div className="font-semibold text-left">
+            <Link href={`/dashboard?sort=title&order=${order === 'desc' ? 'asc' : 'desc'}`}>
+              Title{order}
+            </Link>
+          </div>
         </th>
         <th className="p-2 whitespace-nowrap">
           <div className="font-semibold text-left">published</div>
@@ -37,13 +43,15 @@ export const THead = () => {
   )
 }
 
-export const TR = ({ authorId, title, published }: any) => {
+export const TR = ({ authorId, title, published, author }: any) => {
   return (
     <tr>
       <td className="p-2 whitespace-nowrap">
         <div className="flex items-center">
-          {/* <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div> */}
-          <div className="font-medium text-gray-800">{authorId}</div>
+          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+            <img className="rounded-full" src={author?.image} width="40" height="40" alt="Alex Shatov" />
+          </div>
+          <div className="font-medium text-gray-800">{author?.name}</div>
         </div>
       </td>
       <td className="p-2 whitespace-nowrap">
@@ -60,19 +68,24 @@ export const TBody = ({ posts }: { posts: Post[] }) => {
   return (
     <tbody className="text-sm divide-y divide-gray-100">
       {posts.map(post => <TR key={post.id} {...post} /> )}
-      <TR />
     </tbody>
   )
 }
 
-interface Props {
-  posts: Post[]
+interface SortProps {
+  field?: string
+  order?: string
 }
 
-export const Table = ({ posts }: Props ) => {
+interface Props {
+  posts: Post[]
+  sort?: SortProps
+}
+
+export const Table = ({ posts, sort }: Props ) => {
   return (
     <table className="table-auto w-full">
-      <THead />
+      <THead {...sort} />
       <TBody posts={ posts } />
     </table>
   )

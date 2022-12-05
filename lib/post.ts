@@ -33,9 +33,16 @@ export async function createPost(post: Post): Promise<CreatePostResponse> {
   }
 }
 
-export async function getAllPosts(): Promise<GetAllPostsResponse> {
+export async function getAllPosts({ sort, order }: any): Promise<GetAllPostsResponse> {
   try {
-    const posts = await prisma.post.findMany()
+    const posts = await prisma.post.findMany({
+      include: {
+        author: true
+      },
+      orderBy: {
+        [sort]: order
+      }
+    })
     return { posts }
   } catch(error) {
     return { posts: [], error }
