@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { getUsers } from "../../lib/user"
+import { getUsers } from "../../../lib/user"
 
 export default async function UsersComponent() {
   const { users } = await getUsers()

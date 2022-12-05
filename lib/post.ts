@@ -1,21 +1,26 @@
 import prisma from '.'
 
-interface Post {
+export interface Post {
+  id: string
   title: string
-  content?: string
+  content: string | null
+  published: boolean
+  authorId: string
 }
 
-export async function createPost(post: Post) {
-  try {
-    const postFromDB = await prisma.post.create({
-      data: {
-        title: post.title,
-        content: post.content,
-        author: { connect: { email: 'aperezl@gmail.com' }}
-      }
-    })
-    return { post: postFromDB }
-  } catch (error) {
-    return { error }
-  }
+export async function createPost(post: Post): Promise<{ post: Post}> {
+  const postFromDB = await prisma.post.create({
+    data: {
+      title: post.title,
+      content: post.content,
+      author: { connect: { email: 'aperezl@gmail.com' }}
+    }
+  })
+  return { post: postFromDB }
+
+}
+
+export async function getAllPosts(): Promise<{ posts: Post[]}> {
+  const posts = await prisma.post.findMany()
+  return { posts }  
 }

@@ -1,4 +1,4 @@
-import { getUserById, getUsers } from "../../../lib/user"
+import { getUserById, getUsers } from "../../../../lib/user"
 import { Suspense } from "react";
 
 export const dynamicParams = true

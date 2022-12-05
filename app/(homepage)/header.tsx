@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import LoginBtn from '../components/auth/loginBtn'
+import LoginBtn from '../../components/auth/loginBtn'
 
 const LI = ({ path, title}: any) => {
   return (
