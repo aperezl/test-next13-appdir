@@ -22,6 +22,7 @@ export function Editor({ data, setData }: Props) {
     const Code = (await import("@editorjs/code")).default
     const LinkTool = (await import("@editorjs/link")).default
     const InlineCode = (await import("@editorjs/inline-code")).default
+    const ImageTool = (await import("@editorjs/image")).default
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -42,6 +43,24 @@ export function Editor({ data, setData }: Props) {
           inlineCode: InlineCode,
           table: Table,
           embed: Embed,
+          image: {
+            class: ImageTool,
+            config: {
+              uploader: {
+                async uploadByFile(file: File) {
+                  const data = new FormData()
+                  data.append('file', file)
+                  data.append('id', '1234')
+                  const x = await fetch('/api/images', {
+                    method: 'POST',
+                    body: data
+                  })
+                  console.log({ file, x })
+                  console.log(await x.json())
+                }
+              }
+            }
+          }
         }
       })
     }

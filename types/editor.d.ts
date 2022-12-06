@@ -32,3 +32,7 @@ declare module "@editorjs/inline-code" {
   import InlineCode from "@editorjs/inline-code";
   export = InlineCode;
 }
+declare module "@editorjs/image" {
+  import ImageTool from "@editorjs/image";
+  export = ImageTool;
+}
