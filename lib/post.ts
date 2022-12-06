@@ -9,12 +9,22 @@ export interface Post {
 }
 
 export interface CreatePostResponse {
-  post?: Post,
+  post?: Post
   error?: any
 }
 
 export interface GetAllPostsResponse {
   posts: Post[]
+  error?: any
+}
+
+export interface GetPostByIdResponse {
+  post?: Post | null
+  error?: any
+}
+
+export interface UpdatePostResponse {
+  post?: Post | null
   error?: any
 }
 
@@ -33,6 +43,21 @@ export async function createPost(post: Post): Promise<CreatePostResponse> {
   }
 }
 
+export async function updatePost(id: string, post:Post): Promise<UpdatePostResponse> {
+  try {
+    const postFromDB = await prisma.post.update( {
+      where: { id },
+      data: {
+        title: post.title,
+        content: post.content
+      }
+    })
+    return { post: postFromDB}
+  } catch(error) {
+    return { error }
+  }
+}
+
 export async function getAllPosts({ sort, order }: any): Promise<GetAllPostsResponse> {
   try {
     const posts = await prisma.post.findMany({
@@ -46,6 +71,14 @@ export async function getAllPosts({ sort, order }: any): Promise<GetAllPostsResp
     return { posts }
   } catch(error) {
     return { posts: [], error }
+  } 
+}
+
+export async function getPostById(id: string):Promise<GetPostByIdResponse> {
+  try {
+    const post = await prisma.post.findUnique({ where: { id }})
+    return { post }
+  } catch(error) {
+    return { error }
   }
-  
 }

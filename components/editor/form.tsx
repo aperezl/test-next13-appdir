@@ -4,24 +4,28 @@ import { useState } from "react"
 import { Editor } from "./editor"
 
 interface Props {
+  id?: string
   title: string
   content: any
 }
 
-export default function Form({ title, content }: Props) {
+export default function Form({ id, title, content }: Props) {
   const [data, setData] = useState(content || [])
-  const [post, setPost] = useState({ title })
+  const [post, setPost] = useState({ title, id })
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()    
     console.log(post, data)
     try {
       const body = {
+        id: post.id,
         title: post.title,
         content: JSON.stringify(data)
       }
-      const result = await fetch('/api/post', {
-        method: 'POST',
+      const route = post.id ? `/api/post/${post.id}` : '/api/post'
+      const method = post.id ? 'PUT' : 'POST'
+      const result = await fetch(route, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       })
