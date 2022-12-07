@@ -1,9 +1,20 @@
 import prisma from '.'
 
+const makeSlug = (s:string) => s
+  .trim()
+  .toLowerCase()
+  .replace(/[^\w\s-]/g, '')
+  .replace(/[\s_-]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+
 export interface Post {
   id: string
   title: string
   content: string | null
+  slug: string
+  image?: string | null
+  tags: string[]
+  excerpt: String
   published: boolean
   authorId: string
 }
@@ -33,6 +44,8 @@ export async function createPost(post: Post): Promise<CreatePostResponse> {
     const postFromDB = await prisma.post.create({
       data: {
         title: post.title,
+        slug: makeSlug(post.title),
+        excerpt: 'Your description here',
         content: post.content,
         author: { connect: { email: 'aperezl@gmail.com' }}
       }

@@ -7,11 +7,34 @@ interface Props {
   id?: string
   title: string
   content: any
+  image: string | undefined
 }
 
-export default function Form({ id, title, content }: Props) {
+export default function Form({ id, title, content, image }: Props) {
   const [data, setData] = useState(content || [])
-  const [post, setPost] = useState({ title, id })
+  const [post, setPost] = useState({ id, title, image })
+  const [postImage, setPostImage] = useState(null);
+  const [createObjectURL, setCreateObjectURL] = useState<null|string>(null);
+
+  const uploadToClient = async (event:any) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      setPostImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+      const data = new FormData()
+      data.append('file', i)
+      data.append('id', id || 'undefined')
+      const result = await fetch('/api/images', {
+        method: 'POST',
+        body: data
+      })
+      const uploadedFile = await result.json()
+      console.log(uploadedFile)
+      console.log(uploadedFile.result.secure_url)
+      setPost({ ...post, image: uploadedFile.result.secure_url || '' })
+    }
+  }
+  
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()    
@@ -39,6 +62,13 @@ export default function Form({ id, title, content }: Props) {
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" placeholder="Title" value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value})} />
+      <img src={createObjectURL || ''} alt='preview image' />
+      <input
+        type="file"
+        name="image"
+        accept="image/*"
+        onChange={uploadToClient}
+      />
       <Editor data={data} setData={setData} id={post.id}/>
       <button type="submit">Save</button>
       <pre>{JSON.stringify(data, null, 2)}</pre>

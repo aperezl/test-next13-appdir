@@ -1,6 +1,6 @@
+import Header from '../../ui/Header'
 import Footer from './Footer'
 import './globals.css'
-import Header from './header'
 
 export default function RootLayout({
   children,
@@ -16,9 +16,7 @@ export default function RootLayout({
       <head />
       <body>
         <Header />
-        <main>
-          {children}
-        </main>
+        {children}
         <Footer />
       </body>
     </html>

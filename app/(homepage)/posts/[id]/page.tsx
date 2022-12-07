@@ -8,9 +8,11 @@ interface Block {
   type: string
   data: any
 }
-
 const elements: Elements = {
-  header: (data:any) => <h1>{data.text}</h1>,
+  header: (data:any) => {
+    const H = `h${data.level}` as keyof JSX.IntrinsicElements
+    return <H>{data.text}</H>
+  },
   paragraph: (data:any) => <p>{data.text}</p>,
   image: (data:any) => <img src={data.file.url} alt={data.file.caption} />
 

@@ -12,11 +12,13 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     try {
       const {id, ...data} = req.body
       const { post, error } = await updatePost(id, data)
+      console.log({ post, error })
       if (error) throw error
       await res.revalidate(`/posts/${id}`)
       await res.revalidate(`/posts`)
       return res.status(200).json({ post })
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ error })
     }
   }

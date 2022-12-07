@@ -1,7 +1,19 @@
 import Link from 'next/link'
 import React from 'react'
 
-const LI = ({ path, title}: any) => {
+interface Imenu {
+  key: string
+  path: string
+  title: string
+}
+
+const menu:Imenu[] = [
+  { key: 'home', path: '/', title: 'Home' },
+  { key: 'users', path: '/users', title: 'Users' },
+  { key: 'posts', path: '/posts', title: 'Posts' }
+]
+
+const MenuItem = ({ path, title}: any) => {
   return (
     <li>
       <Link 
@@ -18,8 +30,7 @@ const Header = () => {
     <header className='bg-stone-100 py-12'>
       <nav className='center'>
         <ul className='flex justify-center gap-8'>
-          <LI path='/' title='Home' />
-          <LI path='/users' title='Users' />
+          {menu.map(({key, ...m}) => <MenuItem key={key} {...m} /> )}
         </ul>
       </nav>
 
