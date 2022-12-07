@@ -31,9 +31,8 @@ const EditorJSParser = ({ content }:any) => {
 export const dynamicParams = true
 
 export async function generateStaticParams() {
-  // const { posts } = await getAllPosts({ sort: 'title', order: 'desc' })
-  // return posts?.map(post => ({ id: post.id }))
-  return []
+  const { posts } = await getAllPosts({ sort: 'title', order: 'desc' })
+  return posts?.map(post => ({ id: post.id }))
 }
 
 
