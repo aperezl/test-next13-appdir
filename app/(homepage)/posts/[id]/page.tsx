@@ -1,4 +1,4 @@
-import { getPostById } from "../../../../lib/post"
+import { getAllPosts, getPostById } from "../../../../lib/post"
 
 interface Elements {
   [key: string]: Function
@@ -27,6 +27,14 @@ const EditorJSParser = ({ content }:any) => {
   return formatedContent
 
 }
+
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  const { posts } = await getAllPosts({ sort: 'title', order: 'desc' })
+  return posts?.map(post => ({ id: post.id }))
+}
+
 
 export default async function Post({ params }: any) {
   const { post } = await getPostById(params.id)
