@@ -3,11 +3,12 @@ import { useRef, useEffect, useState } from 'react'
 import EditorJS from '@editorjs/editorjs'
 
 interface Props {
+  id?: string
   data: any
   setData: any
 }
 
-export function Editor({ data, setData }: Props) {
+export function Editor({ id, data, setData }: Props) {
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isMounted, setIsMounted] = useState<boolean>(false)
 
@@ -46,17 +47,26 @@ export function Editor({ data, setData }: Props) {
           image: {
             class: ImageTool,
             config: {
+              buttonContent: 'none',
               uploader: {
                 async uploadByFile(file: File) {
                   const data = new FormData()
                   data.append('file', file)
-                  data.append('id', '1234')
-                  const x = await fetch('/api/images', {
+                  data.append('id', id || 'undefined')
+                  const result = await fetch('/api/images', {
                     method: 'POST',
                     body: data
                   })
-                  console.log({ file, x })
-                  console.log(await x.json())
+                  const uploadedFile = await result.json()
+                  console.log(uploadedFile)
+                  console.log(uploadedFile.result.secure_url)
+                  return {
+                    success: 1,
+                    file: {
+                      url: uploadedFile.result.secure_url
+                    }
+
+                  }
                 }
               }
             }

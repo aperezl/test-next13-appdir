@@ -39,7 +39,7 @@ export default function Form({ id, title, content }: Props) {
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" placeholder="Title" value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value})} />
-      <Editor data={data} setData={setData} />
+      <Editor data={data} setData={setData} id={post.id}/>
       <button type="submit">Save</button>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </form>

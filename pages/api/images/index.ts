@@ -1,7 +1,8 @@
-import { NextApiHandler, NextApiRequest } from 'next'
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import formidable from 'formidable'
-import path from 'path'
 import fs from 'fs/promises'
+import streamifier from 'streamifier'
+import cloudinary from '../../../lib/cloudinary'
 
 export const config = {
   api: {
@@ -9,42 +10,32 @@ export const config = {
   }
 }
 
-const readFile = (req: NextApiRequest) => {
+const readFile = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable()
-  form.parse(req, (err, fields, files) => {
-    console.log(files.file)
+  form.parse(req, async (err, fields, files: any) => {
+    
+    const oldPath = files.file.filepath;
+    const rawData = await fs.readFile(oldPath);
+    const stream = cloudinary.uploader.upload_stream({
+      folder: `posts/${fields.id}`
+    }, function(error, result) {
+      console.log({ error, result })
+      if (error) return res.status(500).json({ error })
+      return res.json({ success: true, result })
+    })
+    streamifier.createReadStream(rawData).pipe(stream)
   })
   
 }
-const readFileOld = (
-  req:NextApiRequest,
-  saveLocally?:boolean
-): Promise<{fields: formidable.Fields, files: any}> => {
-  const options: formidable.Options = {}
-  if (saveLocally) {
-    options.uploadDir = path.join(process.cwd(), 'public/images')
-    options.filename = (name, ext, path, form) => {
-      return Date.now().toString() + '_' + path.originalFilename
-    }
-  }
-  const form = formidable(options)
-  return new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => {
-      if (err) reject(err)
-      resolve({fields, files})
-    })
-  })
-}
 
 const handler: NextApiHandler = async (req, res) => {
-  try {
-    await fs.readdir(path.join(process.cwd() + '/public', '/images'))
-  } catch (err) {
-    await fs.mkdir(path.join(process.cwd() + '/public', '/images'))
-  }
+  // try {
+  //   await fs.readdir(path.join(process.cwd() + '/public', '/images'))
+  // } catch (err) {
+  //   await fs.mkdir(path.join(process.cwd() + '/public', '/images'))
+  // }
   // await readFile(req, true)
-  await readFile(req)
-  res.json({ done: 'ok' })
+  await readFile(req, res)
 }
 
 export default handler
