@@ -7,7 +7,7 @@ interface Props {
   id?: string
   title: string
   content: any
-  image: string | undefined
+  image?: string | undefined
 }
 
 export default function Form({ id, title, content, image }: Props) {
