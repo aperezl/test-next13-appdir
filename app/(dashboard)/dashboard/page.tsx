@@ -2,7 +2,7 @@ import { authOptions } from "../../../pages/api/auth/[...nextauth]"
 
 import { unstable_getServerSession } from "next-auth/next"
 import { Table } from "./table"
-import { getAllPosts, Post } from "../../../lib/post"
+import { getAllPosts } from "../../../lib/post"
 import LoginBtn from "../../../components/auth/loginBtn"
 
 export default async function Dashboard({ searchParams }: any) {
@@ -17,6 +17,7 @@ export default async function Dashboard({ searchParams }: any) {
   return (
     <>
       Dasboard
+        <LoginBtn />
         <Table posts={ posts } sort={{ field: sort, order }} />
       {/* <pre>{JSON.stringify(posts, null, 2)}</pre> */}
     </>
