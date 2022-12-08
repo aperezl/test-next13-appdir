@@ -12,7 +12,7 @@ const elements: Elements = {
     const H = `h${data.level}` as keyof JSX.IntrinsicElements
     return <H>{data.text}</H>
   },
-  paragraph: (data:any) => <p>{data.text}</p>,
+  paragraph: (data:any) => <p dangerouslySetInnerHTML={{__html: data.text}}></p>,
   image: (data:any) => <img src={data.file.url} alt={data.file.caption} />
 
 }
