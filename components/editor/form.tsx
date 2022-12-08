@@ -19,7 +19,7 @@ export default function Form({ id, title, content, image }: Props) {
   const uploadToClient = async (event:any) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
-      setPostImage(i);
+      // setPostImage(i);
       setCreateObjectURL(URL.createObjectURL(i));
       const data = new FormData()
       data.append('file', i)
@@ -31,7 +31,8 @@ export default function Form({ id, title, content, image }: Props) {
       const uploadedFile = await result.json()
       console.log(uploadedFile)
       console.log(uploadedFile.result.secure_url)
-      setPost({ ...post, image: uploadedFile.result.secure_url || '' })
+      await setPost({ ...post, image: uploadedFile.result.secure_url || 'none' })
+      console.log({ postClient: post })
     }
   }
   

@@ -58,11 +58,13 @@ export async function createPost(post: Post): Promise<CreatePostResponse> {
 
 export async function updatePost(id: string, post:Post): Promise<UpdatePostResponse> {
   try {
+    console.log({ postlib: post })
     const postFromDB = await prisma.post.update( {
       where: { id },
       data: {
         title: post.title,
-        content: post.content
+        content: post.content,
+        image: post.image
       }
     })
     return { post: postFromDB}

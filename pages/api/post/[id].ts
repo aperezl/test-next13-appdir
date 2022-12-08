@@ -10,6 +10,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       return res.status(401).send({ message: 'Unauthorized' })
     }
     try {
+      console.log({ body: req.body })
       const {id, ...data} = req.body
       const { post, error } = await updatePost(id, data)
       console.log({ post, error })
