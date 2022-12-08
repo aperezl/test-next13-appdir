@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@editorjs/image": "^2.7.1",
+    "@tailwindcss/typography": "^0.5.8",
     "@types/formidable": "^2.0.5",
     "@types/streamifier": "^0.1.0",
     "autoprefixer": "^10.4.13",
