@@ -89,7 +89,7 @@ export default function Form({ id, title, content, image }: Props) {
       <Editor data={data} setData={setData} id={post.id}/>
       <button type="submit">Save</button> -- 
       <button type="button" onClick={handleBack}>Back</button>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </form>
   )
 }
