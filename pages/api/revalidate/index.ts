@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
-import { updatePost } from '../../../lib/post'
 
 const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   
@@ -8,11 +7,14 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   if (!session) {
     return res.status(401).send({ message: 'Unauthorized' })
   }
+
+  console.log('ENV:', process.env.NODE_ENV)
   
   if (req.method === 'PUT') {
     const { path } = req.body
-    console.log(`revalidating... ${path}`)
+    if (process.env.NODE_ENV === 'development') return res.status(200).json({ path })
 
+    console.log(`revalidating... ${path}`)
     try {
       await res.revalidate(path)
       console.log(`revalidate: ${path}`)

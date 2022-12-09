@@ -106,5 +106,5 @@ export function Editor({ id, data, setData }: Props) {
     return null
   }
 
-  return <div id="editor" className="min-h-[500px]" />
+  return <div id="editor" className="min-h-[500px] bg-white" />
 }

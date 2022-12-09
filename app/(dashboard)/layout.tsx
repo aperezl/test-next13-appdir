@@ -3,7 +3,8 @@ import { unstable_getServerSession } from "next-auth/next"
 import LoginBtn from "../../components/auth/loginBtn"
 
 import Providers from "./providers"
-import './dashboard/globals.css'
+import './globals.css'
+import Base from "../../ui/dashboard/Base"
 
 const NotAuthorized = () => {
   return (
@@ -30,10 +31,10 @@ export default async function RootLayout({
     <html>
       <Providers refetchOnWindowFocus={false}>
         <body>
-          <h1>Dashboard</h1>
-          <LoginBtn />
-          {children}
-          </body>
+          <Base>
+            {children}
+          </Base>
+        </body>
       </Providers>
     </html>
   )

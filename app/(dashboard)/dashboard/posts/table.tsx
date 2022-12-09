@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link"
-import { Post } from "../../../lib/post"
+import { Post } from "../../../../lib/post"
 
 // export const TableWrapper = () => {
 //   return (
@@ -61,7 +61,7 @@ export const TR = ({ id, title, published, author }: any) => {
         <div className="text-left">{published ? 'published' : 'draft'}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <Link href={`/dashboard/edit/${id}`}>Edit</Link>
+        <Link href={`/dashboard/posts/${id}`}>Edit</Link>
       </td>
     </tr>
   )

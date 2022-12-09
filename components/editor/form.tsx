@@ -72,7 +72,7 @@ export default function Form({ id, title, content, image }: Props) {
 
   const handleBack = async () => {
     router.refresh()
-    router.replace('/dashboard')
+    router.replace('/dashboard/posts')
   }
 
 
