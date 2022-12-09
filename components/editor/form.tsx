@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link"
 import { useState } from "react"
 import { Editor } from "./editor"
 
@@ -71,7 +72,8 @@ export default function Form({ id, title, content, image }: Props) {
         onChange={uploadToClient}
       />
       <Editor data={data} setData={setData} id={post.id}/>
-      <button type="submit">Save</button>
+      <button type="submit">Save</button> -- 
+      <Link href={'/dashboard'}>Back</Link>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </form>
   )
