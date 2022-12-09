@@ -39,6 +39,16 @@ export default function Form({ id, title, content, image }: Props) {
     }
   }
   
+  const dispacher = async (path: string, method: string, payload: any) => {
+    const result = await fetch(`/api/${path}`, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    return result.json()
+  }
+
+  const revalidate = async (path:string) => dispacher('/revalidate', 'PUT', { path })
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()    
@@ -49,14 +59,12 @@ export default function Form({ id, title, content, image }: Props) {
         title: post.title,
         content: JSON.stringify(data)
       }
-      const route = post.id ? `/api/post/${post.id}` : '/api/post'
+      const route = post.id ? `post/${post.id}` : 'post'
       const method = post.id ? 'PUT' : 'POST'
-      const result = await fetch(route, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      })
-      console.log(await result.json())
+      const result = await dispacher(route, method, body)
+      console.log(result)
+      console.log(await revalidate('/posts'))
+      console.log(await revalidate(`/posts/${post.id}`))
     } catch (error) {
       console.log(error)
     }
