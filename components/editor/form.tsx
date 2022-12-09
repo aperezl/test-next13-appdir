@@ -1,7 +1,8 @@
 'use client'
 
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { use, useState } from "react"
 import { Editor } from "./editor"
 
 interface Props {
@@ -16,6 +17,7 @@ export default function Form({ id, title, content, image }: Props) {
   const [post, setPost] = useState({ id, title, image })
   const [postImage, setPostImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState<null|string>(null);
+  const router = useRouter()
 
   const uploadToClient = async (event:any) => {
     if (event.target.files && event.target.files[0]) {
@@ -60,6 +62,11 @@ export default function Form({ id, title, content, image }: Props) {
     }
   }
 
+  const handleBack = async () => {
+    router.refresh()
+    router.replace('/dashboard')
+  }
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -73,7 +80,7 @@ export default function Form({ id, title, content, image }: Props) {
       />
       <Editor data={data} setData={setData} id={post.id}/>
       <button type="submit">Save</button> -- 
-      <Link href={'/dashboard'}>Back</Link>
+      <button type="button" onClick={handleBack}>Back</button>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </form>
   )
