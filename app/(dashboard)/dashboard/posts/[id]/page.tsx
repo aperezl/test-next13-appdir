@@ -6,9 +6,10 @@ export default async function Home({ params }: any) {
   return (
     <>
       <Form 
+        id={params.id}
         title={data.post.title}
         content={JSON.parse(data.post.content || '')}
-        id={params.id}
+        image={data.post.image || ''}
       />
     </>
   )
