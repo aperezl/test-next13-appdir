@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { getAllPosts, getPostById } from "../../../lib/post"
+import { getAllPosts } from "../../../lib/post"
 
 export default async function Post() {
   const { posts } = await getAllPosts({sort: 'title', order: 'asc'})
@@ -8,9 +8,9 @@ export default async function Post() {
     <>
       Posts
       <ul>
-        {posts.map(({ id, title }) => (
+        {posts.map(({ id, slug, title }) => (
           <li key={id}>
-            <Link href={`/posts/${id}`}>{title}</Link>
+            <Link href={`/posts/${slug}`}>{title}</Link>
           </li>
         ))}        
       </ul>

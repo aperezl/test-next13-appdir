@@ -70,7 +70,7 @@ model Post {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   content   String?
-  slug      String
+  slug      String  @unique
   image     String?
   tags      String[]
   excerpt   String

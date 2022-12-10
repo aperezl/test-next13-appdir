@@ -8,13 +8,14 @@ import { Editor } from "./editor"
 interface Props {
   id?: string
   title: string
+  slug: string
   content: any
   image?: string | undefined
 }
 
-export default function Form({ id, title, content, image }: Props) {
+export default function Form({ id, title, slug, content, image }: Props) {
   const [data, setData] = useState(content || [])
-  const [post, setPost] = useState({ id, title, image })
+  const [post, setPost] = useState({ id, title, slug, image })
   const [createObjectURL, setCreateObjectURL] = useState<null|string>(image || null);
   const router = useRouter()
 
@@ -56,6 +57,7 @@ export default function Form({ id, title, content, image }: Props) {
       const body = {
         id: post.id,
         title: post.title,
+        slug: post.slug,
         content: JSON.stringify(data),
         image: post.image
       }
@@ -64,7 +66,7 @@ export default function Form({ id, title, content, image }: Props) {
       const result = await dispacher(route, method, body)
       console.log(result)
       console.log(await revalidate('/posts'))
-      console.log(await revalidate(`/posts/${post.id}`))
+      console.log(await revalidate(`/posts/${post.slug}`))
     } catch (error) {
       console.log(error)
     }

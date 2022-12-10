@@ -63,6 +63,7 @@ export async function updatePost(id: string, post:Post): Promise<UpdatePostRespo
       where: { id },
       data: {
         title: post.title,
+        slug: makeSlug(post.title),
         content: post.content,
         image: post.image
       }
@@ -92,6 +93,15 @@ export async function getAllPosts({ sort, order }: any): Promise<GetAllPostsResp
 export async function getPostById(id: string):Promise<GetPostByIdResponse> {
   try {
     const post = await prisma.post.findUnique({ where: { id }})
+    return { post }
+  } catch(error) {
+    return { error }
+  }
+}
+
+export async function getPostBySlug(slug: string):Promise<GetPostByIdResponse> {
+  try {
+    const post = await prisma.post.findUnique({ where: { slug }})
     return { post }
   } catch(error) {
     return { error }

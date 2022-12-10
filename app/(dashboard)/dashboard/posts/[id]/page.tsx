@@ -8,6 +8,7 @@ export default async function Home({ params }: any) {
       <Form 
         id={params.id}
         title={data.post.title}
+        slug={data.post.slug}
         content={JSON.parse(data.post.content || '')}
         image={data.post.image || ''}
       />
