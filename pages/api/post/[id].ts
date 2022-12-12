@@ -23,6 +23,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     }
     await res.revalidate(`/posts/${id}`)
     await res.revalidate(`/posts`)
+    await res.revalidate(`/`)
     return true
   }
 }
