@@ -67,6 +67,7 @@ export default function Form({ id, title, slug, content, image }: Props) {
       console.log(result)
       console.log(await revalidate('/posts'))
       console.log(await revalidate(`/posts/${post.slug}`))
+      console.log(await revalidate('/'))
     } catch (error) {
       console.log(error)
     }
