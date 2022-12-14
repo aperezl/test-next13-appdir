@@ -1,6 +1,6 @@
-# fly.toml file generated for next-test on 2022-12-01T20:43:30+01:00
+# fly.toml file generated for billowing-bird-9938 on 2022-12-14T13:00:34+01:00
 
-app = "next-test"
+app = "billowing-bird-9938"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -13,7 +13,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 8080
+  internal_port = 3000
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
