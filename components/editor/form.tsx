@@ -69,7 +69,8 @@ export default function Form({ id, title, slug, content, image }: Props) {
       Promise.allSettled(revalidates).then(results => {
         console.log(results)
         router.refresh()
-        router.replace('/dashboard/posts')
+        router.prefetch('/posts')
+        router.push('/dashboard/posts')
       })
     } catch (error) {
       console.log(error)
@@ -78,7 +79,7 @@ export default function Form({ id, title, slug, content, image }: Props) {
 
   const handleBack = async () => {
     router.refresh()
-    router.replace('/dashboard/posts')
+    router.push('/dashboard/posts')
   }
 
 
