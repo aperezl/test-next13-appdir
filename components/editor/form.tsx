@@ -65,9 +65,12 @@ export default function Form({ id, title, slug, content, image }: Props) {
       const method = post.id ? 'PUT' : 'POST'
       const result = await dispacher(route, method, body)
       console.log(result)
-      console.log(await revalidate('/posts'))
-      console.log(await revalidate(`/posts/${post.slug}`))
-      console.log(await revalidate('/'))
+      const revalidates = [revalidate('/posts'), revalidate(`/posts/${post.slug}`), revalidate('/')]
+      Promise.allSettled(revalidates).then(results => {
+        console.log(results)
+        router.refresh()
+        router.replace('/dashboard/posts')
+      })
     } catch (error) {
       console.log(error)
     }

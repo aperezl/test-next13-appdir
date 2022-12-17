@@ -21,9 +21,6 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       console.log(error)
       return res.status(500).json({ error })
     }
-    await res.revalidate(`/posts/${id}`)
-    await res.revalidate(`/posts`)
-    await res.revalidate(`/`)
     return true
   }
 }

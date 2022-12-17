@@ -12,7 +12,10 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   
   if (req.method === 'PUT') {
     const { path } = req.body
-    if (process.env.NODE_ENV === 'development') return res.status(200).json({ path })
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`not revaliate ${path} in dev mode`)
+      return res.status(200).json({ path })
+    }
 
     console.log(`revalidating... ${path}`)
     try {
